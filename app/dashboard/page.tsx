@@ -2,9 +2,16 @@
 
 import { useState, useEffect } from "react";
 
+type Task = {
+  id: number;
+  title: string;
+  completed: boolean;
+};
+
 export default function Dashboard() {
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [title, setTitle] = useState("");
+  const [filter, setFilter] = useState("all");
 
   async function fetchTasks() {
     const res = await fetch("/api/tasks");
@@ -13,11 +20,13 @@ export default function Dashboard() {
   }
 
   async function addTask() {
-    if (!title) return;
+    if (!title.trim()) return;
 
     await fetch("/api/tasks", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ title }),
     });
 
@@ -25,27 +34,41 @@ export default function Dashboard() {
     fetchTasks();
   }
 
-  async function deleteTask(id: number) {
-    await fetch(`/api/tasks/${id}`, { method: "DELETE" });
-    fetchTasks();
-  }
+async function deleteTask(id: number) {
+  await fetch(`/api/tasks/${id}`, {
+    method: "DELETE",
+  });
 
-  async function toggleComplete(task: any) {
-    await fetch("/api/tasks", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id: task.id,
-        completed: !task.completed,
-      }),
-    });
+  fetchTasks();
+}
 
-    fetchTasks();
-  }
+async function toggleComplete(task: Task) {
+  await fetch("/api/tasks", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: task.id,
+      completed: !task.completed,
+    }),
+  });
+
+  fetchTasks();
+}
 
   useEffect(() => {
     fetchTasks();
   }, []);
+
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "completed") return task.completed;
+    if (filter === "pending") return !task.completed;
+    return true;
+  });
+
+  const completedCount = tasks.filter((t) => t.completed).length;
+  const pendingCount = tasks.length - completedCount;
 
   return (
     <div
@@ -57,11 +80,16 @@ export default function Dashboard() {
         fontFamily: "sans-serif",
       }}
     >
-      <h1 style={{ fontSize: "32px", marginBottom: "30px" }}>
+      <h1 style={{ fontSize: "36px", marginBottom: "10px" }}>
         Task Manager
       </h1>
 
-      <div style={{ marginBottom: "30px" }}>
+      <p style={{ color: "#94a3b8", marginBottom: "30px" }}>
+        Total: {tasks.length} | Completed: {completedCount} | Pending: {pendingCount}
+      </p>
+
+      {/* Add Task */}
+      <div style={{ marginBottom: "25px" }}>
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -78,10 +106,11 @@ export default function Dashboard() {
         <button
           onClick={addTask}
           style={{
-            padding: "10px 18px",
+            padding: "10px 20px",
             background: "#22c55e",
             border: "none",
             borderRadius: "6px",
+            color: "white",
             cursor: "pointer",
           }}
         >
@@ -89,8 +118,30 @@ export default function Dashboard() {
         </button>
       </div>
 
+      {/* Filters */}
+      <div style={{ marginBottom: "20px" }}>
+        <button
+          onClick={() => setFilter("all")}
+          style={{ marginRight: "10px" }}
+        >
+          All
+        </button>
+
+        <button
+          onClick={() => setFilter("completed")}
+          style={{ marginRight: "10px" }}
+        >
+          Completed
+        </button>
+
+        <button onClick={() => setFilter("pending")}>
+          Pending
+        </button>
+      </div>
+
+      {/* Task List */}
       <div style={{ maxWidth: "500px" }}>
-        {tasks.map((task) => (
+        {filteredTasks.map((task) => (
           <div
             key={task.id}
             style={{
@@ -99,7 +150,7 @@ export default function Dashboard() {
               justifyContent: "space-between",
               background: "#1e293b",
               padding: "12px",
-              marginBottom: "10px",
+              marginBottom: "12px",
               borderRadius: "8px",
             }}
           >
@@ -113,9 +164,7 @@ export default function Dashboard() {
 
               <span
                 style={{
-                  textDecoration: task.completed
-                    ? "line-through"
-                    : "none",
+                  textDecoration: task.completed ? "line-through" : "none",
                   color: task.completed ? "#94a3b8" : "white",
                 }}
               >
@@ -128,10 +177,10 @@ export default function Dashboard() {
               style={{
                 background: "#ef4444",
                 border: "none",
-                padding: "6px 12px",
+                padding: "6px 14px",
                 borderRadius: "6px",
-                cursor: "pointer",
                 color: "white",
+                cursor: "pointer",
               }}
             >
               Delete
