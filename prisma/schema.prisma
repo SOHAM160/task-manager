@@ -15,6 +15,8 @@ model Task {
   priority    Int      @default(3)
   deadline    DateTime?
 
+  burstTime   Int      @default(5)   // execution time
+
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
+  updatedAt   DateTime @updatedAt
 }
