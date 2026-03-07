@@ -1,11 +1,12 @@
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   const tasks = await prisma.task.findMany({
-    orderBy: { id: "desc" },
+    orderBy: { createdAt: "desc" }
   });
 
-  return Response.json(tasks);
+  return NextResponse.json(tasks);
 }
 
 export async function POST(req: Request) {
@@ -14,24 +15,11 @@ export async function POST(req: Request) {
   const task = await prisma.task.create({
     data: {
       title: body.title,
-      completed: false,
-    },
+      description: body.description || null,
+      priority: body.priority || 3,
+      deadline: body.deadline ? new Date(body.deadline) : null
+    }
   });
 
-  return Response.json(task);
-}
-
-export async function PUT(req: Request) {
-  const body = await req.json();
-
-  const task = await prisma.task.update({
-    where: {
-      id: body.id,
-    },
-    data: {
-      completed: body.completed,
-    },
-  });
-
-  return Response.json(task);
+  return NextResponse.json(task);
 }
