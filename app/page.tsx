@@ -5,8 +5,7 @@ import ParticleBackground from "@/components/ParticleBackground";
 
 export default function Home() {
 
-<<<<<<< HEAD
-=======
+
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [authEmail, setAuthEmail] = useState("");
   const [authPassword, setAuthPassword] = useState("");
@@ -16,7 +15,7 @@ export default function Home() {
   const [emailOptions, setEmailOptions] = useState<string[]>([]);
   const [showEmailDropdown, setShowEmailDropdown] = useState(false);
 
->>>>>>> 248f97b (Initial version with auth and logging)
+
   const [tasks, setTasks] = useState<any[]>([]);
 
   const [title, setTitle] = useState("");
@@ -26,12 +25,7 @@ export default function Home() {
 
   const [algorithm, setAlgorithm] = useState("fcfs");
 
-<<<<<<< HEAD
-  // Fetch tasks
-  const fetchTasks = async () => {
 
-    const res = await fetch("/api/tasks");
-=======
   const fetchCurrentUser = async () => {
 
     try {
@@ -66,7 +60,7 @@ export default function Home() {
     const res = await fetch("/api/tasks", {
       credentials: "include",
     });
->>>>>>> 248f97b (Initial version with auth and logging)
+
     const data = await res.json();
 
     setTasks(data);
@@ -74,15 +68,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-<<<<<<< HEAD
-    fetchTasks();
-  }, []);
-
-  // Add task
-  const addTask = async () => {
-
-    if (!title) return;
-=======
     fetchCurrentUser();
 
     // Prefill email input from previous login on this browser
@@ -98,8 +83,6 @@ export default function Home() {
         }
       } else if (storedEmail) {
         setEmailOptions([storedEmail]);
-        setAuthEmail(storedEmail);
-      } else if (storedEmail) {
         setAuthEmail(storedEmail);
       }
     } catch {
@@ -178,7 +161,6 @@ export default function Home() {
   const addTask = async () => {
 
     if (!title || !userEmail) return;
->>>>>>> 248f97b (Initial version with auth and logging)
 
     await fetch("/api/tasks", {
       method: "POST",
@@ -235,13 +217,9 @@ export default function Home() {
 
     try {
 
-<<<<<<< HEAD
-      const res = await fetch(`/api/schedule?algo=${algorithm}`);
-=======
       const res = await fetch(`/api/schedule?algo=${algorithm}`, {
         credentials: "include",
       });
->>>>>>> 248f97b (Initial version with auth and logging)
 
       if (!res.ok) {
         throw new Error("Scheduler failed");
@@ -293,14 +271,15 @@ export default function Home() {
             Task Scheduler Dashboard
           </h1>
 
-<<<<<<< HEAD
-          <p className="text-gray-400 mb-8">
-            Current Algorithm:{" "}
-            <span className="text-purple-400 font-semibold">
-              {algorithm.toUpperCase()}
-            </span>
-          </p>
-=======
+          <div className="flex justify-between items-center mb-8">
+            <p className="text-gray-400">
+              Current Algorithm:{" "}
+              <span className="text-purple-400 font-semibold mr-6">
+                {algorithm.toUpperCase()}
+              </span>
+            </p>
+          </div>
+
           {userEmail ? (
             <div className="flex justify-between items-center mb-8">
               <p className="text-gray-400">
@@ -422,7 +401,6 @@ export default function Home() {
               </div>
             </div>
           )}
->>>>>>> 248f97b (Initial version with auth and logging)
 
           {/* Scheduler Controls */}
 

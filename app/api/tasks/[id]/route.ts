@@ -1,33 +1,13 @@
-<<<<<<< HEAD
-import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
-
-=======
 import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 
->>>>>>> 248f97b (Initial version with auth and logging)
+
 export async function PUT(
   req: Request,
   context: { params: Promise<{ id: string }> }
 ) {
-<<<<<<< HEAD
-
-  const { id } = await context.params;
-  const body = await req.json();
-
-  const task = await prisma.task.update({
-    where: { id: Number(id) },
-    data: {
-      completed: body.completed
-    }
-  });
-
-  return NextResponse.json(task);
-
-=======
   const { id } = await context.params;
   const body = await req.json();
 
@@ -58,24 +38,12 @@ export async function PUT(
   }
 
   return NextResponse.json({ success: true });
->>>>>>> 248f97b (Initial version with auth and logging)
 }
 
 export async function DELETE(
   req: Request,
   context: { params: Promise<{ id: string }> }
 ) {
-<<<<<<< HEAD
-
-  const { id } = await context.params;
-
-  await prisma.task.delete({
-    where: { id: Number(id) }
-  });
-
-  return NextResponse.json({ message: "Task deleted" });
-
-=======
   const { id } = await context.params;
 
   const user = await getCurrentUser();
@@ -102,5 +70,4 @@ export async function DELETE(
   }
 
   return NextResponse.json({ success: true });
->>>>>>> 248f97b (Initial version with auth and logging)
 }
