@@ -16,7 +16,12 @@
     "prisma": "^7.4.2",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+<<<<<<< HEAD
     "tsparticles": "^3.9.1"
+=======
+    "tsparticles": "^3.9.1",
+    "bcryptjs": "^2.4.3"
+>>>>>>> 248f97b (Initial version with auth and logging)
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

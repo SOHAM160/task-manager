@@ -5,6 +5,18 @@ import ParticleBackground from "@/components/ParticleBackground";
 
 export default function Home() {
 
+<<<<<<< HEAD
+=======
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [authEmail, setAuthEmail] = useState("");
+  const [authPassword, setAuthPassword] = useState("");
+  const [authMode, setAuthMode] = useState<"login" | "register">("login");
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [emailOptions, setEmailOptions] = useState<string[]>([]);
+  const [showEmailDropdown, setShowEmailDropdown] = useState(false);
+
+>>>>>>> 248f97b (Initial version with auth and logging)
   const [tasks, setTasks] = useState<any[]>([]);
 
   const [title, setTitle] = useState("");
@@ -14,10 +26,47 @@ export default function Home() {
 
   const [algorithm, setAlgorithm] = useState("fcfs");
 
+<<<<<<< HEAD
   // Fetch tasks
   const fetchTasks = async () => {
 
     const res = await fetch("/api/tasks");
+=======
+  const fetchCurrentUser = async () => {
+
+    try {
+
+      const res = await fetch("/api/auth/me", {
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+
+        setUserEmail(null);
+        setTasks([]);
+        return;
+
+      }
+
+      const data = await res.json();
+      setUserEmail(data.user.email);
+
+    } catch {
+
+      setUserEmail(null);
+      setTasks([]);
+
+    }
+
+  };
+
+  // Fetch tasks
+  const fetchTasks = async () => {
+
+    const res = await fetch("/api/tasks", {
+      credentials: "include",
+    });
+>>>>>>> 248f97b (Initial version with auth and logging)
     const data = await res.json();
 
     setTasks(data);
@@ -25,6 +74,7 @@ export default function Home() {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
     fetchTasks();
   }, []);
 
@@ -32,6 +82,103 @@ export default function Home() {
   const addTask = async () => {
 
     if (!title) return;
+=======
+    fetchCurrentUser();
+
+    // Prefill email input from previous login on this browser
+    try {
+      const storedEmail = window.localStorage.getItem("lastEmail");
+      const storedList = window.localStorage.getItem("emailHistory");
+
+      if (storedList) {
+        const parsed = JSON.parse(storedList) as string[];
+        setEmailOptions(parsed);
+        if (!storedEmail && parsed.length > 0) {
+          setAuthEmail(parsed[0]);
+        }
+      } else if (storedEmail) {
+        setEmailOptions([storedEmail]);
+        setAuthEmail(storedEmail);
+      } else if (storedEmail) {
+        setAuthEmail(storedEmail);
+      }
+    } catch {
+      // ignore localStorage errors
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userEmail) {
+      fetchTasks();
+    } else {
+      setTasks([]);
+    }
+  }, [userEmail]);
+
+  const handleAuth = async () => {
+
+    if (!authEmail || !authPassword) return;
+
+    setAuthError(null);
+
+    const endpoint = authMode === "login" ? "/api/auth/login" : "/api/auth/register";
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        email: authEmail,
+        password: authPassword,
+        rememberMe,
+      }),
+    });
+
+    if (!res.ok) {
+
+      const data = await res.json().catch(() => null);
+      setAuthError(data?.error || "Authentication failed");
+      return;
+
+    }
+
+    try {
+      window.localStorage.setItem("lastEmail", authEmail);
+      setEmailOptions((prev) => {
+        const without = prev.filter((e) => e !== authEmail);
+        const next = [authEmail, ...without].slice(0, 5);
+        window.localStorage.setItem("emailHistory", JSON.stringify(next));
+        return next;
+      });
+    } catch {
+      // ignore localStorage errors
+    }
+
+    setAuthPassword("");
+    await fetchCurrentUser();
+    await fetchTasks();
+
+  };
+
+  const handleLogout = async () => {
+
+    await fetch("/api/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+
+    setUserEmail(null);
+    setTasks([]);
+
+  };
+
+  // Add task
+  const addTask = async () => {
+
+    if (!title || !userEmail) return;
+>>>>>>> 248f97b (Initial version with auth and logging)
 
     await fetch("/api/tasks", {
       method: "POST",
@@ -88,7 +235,13 @@ export default function Home() {
 
     try {
 
+<<<<<<< HEAD
       const res = await fetch(`/api/schedule?algo=${algorithm}`);
+=======
+      const res = await fetch(`/api/schedule?algo=${algorithm}`, {
+        credentials: "include",
+      });
+>>>>>>> 248f97b (Initial version with auth and logging)
 
       if (!res.ok) {
         throw new Error("Scheduler failed");
@@ -140,12 +293,136 @@ export default function Home() {
             Task Scheduler Dashboard
           </h1>
 
+<<<<<<< HEAD
           <p className="text-gray-400 mb-8">
             Current Algorithm:{" "}
             <span className="text-purple-400 font-semibold">
               {algorithm.toUpperCase()}
             </span>
           </p>
+=======
+          {userEmail ? (
+            <div className="flex justify-between items-center mb-8">
+              <p className="text-gray-400">
+                Logged in as{" "}
+                <span className="text-purple-400 font-semibold">
+                  {userEmail}
+                </span>
+              </p>
+              <button
+                onClick={handleLogout}
+                className="text-sm text-red-400 hover:text-red-500 border border-red-500 px-3 py-1 rounded"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <p className="text-gray-400 mb-8">
+              Please log in or register to manage your tasks.
+            </p>
+          )}
+
+          {/* Auth Form */}
+
+          {!userEmail && (
+            <div className="bg-gray-900/80 backdrop-blur p-6 rounded-xl mb-8 shadow-lg">
+              <div className="flex gap-4 mb-4">
+                <button
+                  onClick={() => setAuthMode("login")}
+                  className={`px-3 py-1 rounded ${
+                    authMode === "login"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-800 text-gray-300"
+                  }`}
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => setAuthMode("register")}
+                  className={`px-3 py-1 rounded ${
+                    authMode === "register"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-800 text-gray-300"
+                  }`}
+                >
+                  Register
+                </button>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <div className="relative">
+                  <div className="flex">
+                    <input
+                      className="p-3 rounded bg-gray-800 border border-gray-700 flex-1 rounded-r-none"
+                      placeholder="Email"
+                      type="email"
+                      value={authEmail}
+                      onChange={(e) => setAuthEmail(e.target.value)}
+                      onFocus={() => {
+                        if (emailOptions.length > 0) setShowEmailDropdown(true);
+                      }}
+                    />
+                    <button
+                      type="button"
+                      className="px-3 bg-gray-800 border border-l-0 border-gray-700 rounded-r text-sm"
+                      onClick={() =>
+                        setShowEmailDropdown((open) =>
+                          emailOptions.length > 0 ? !open : false,
+                        )
+                      }
+                    >
+                      ▼
+                    </button>
+                  </div>
+                  {showEmailDropdown && emailOptions.length > 0 && (
+                    <div className="absolute z-10 mt-1 w-full rounded bg-gray-900 border border-gray-700 max-h-40 overflow-y-auto">
+                      {emailOptions.map((email) => (
+                        <button
+                          key={email}
+                          type="button"
+                          className="w-full text-left px-3 py-2 text-sm hover:bg-gray-800"
+                          onClick={() => {
+                            setAuthEmail(email);
+                            setShowEmailDropdown(false);
+                          }}
+                        >
+                          {email}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <input
+                  className="p-3 rounded bg-gray-800 border border-gray-700"
+                  placeholder="Password"
+                  type="password"
+                  value={authPassword}
+                  onChange={(e) => setAuthPassword(e.target.value)}
+                />
+
+                <label className="flex items-center gap-2 text-sm text-gray-300">
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                  />
+                  <span>Remember me on this device</span>
+                </label>
+
+                {authError && (
+                  <p className="text-red-400 text-sm">{authError}</p>
+                )}
+
+                <button
+                  onClick={handleAuth}
+                  className="bg-blue-600 hover:bg-blue-700 transition p-3 rounded font-semibold"
+                >
+                  {authMode === "login" ? "Login" : "Register"}
+                </button>
+              </div>
+            </div>
+          )}
+>>>>>>> 248f97b (Initial version with auth and logging)
 
           {/* Scheduler Controls */}
 

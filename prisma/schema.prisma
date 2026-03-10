@@ -6,6 +6,26 @@ datasource db {
   provider = "postgresql"
 }
 
+<<<<<<< HEAD
+=======
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  tasks     Task[]
+  sessions  Session[]
+  createdAt DateTime  @default(now())
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+>>>>>>> 248f97b (Initial version with auth and logging)
 model Task {
   id          Int      @id @default(autoincrement())
   title       String
@@ -19,4 +39,13 @@ model Task {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+<<<<<<< HEAD
+=======
+
+  // denormalized for easier DB logging
+  userEmail   String?
+
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+>>>>>>> 248f97b (Initial version with auth and logging)
 }
