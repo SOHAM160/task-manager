@@ -10,8 +10,13 @@ model User {
   id        Int       @id @default(autoincrement())
   email     String    @unique
   password  String
-  tasks     Task[]
+  tasks     Task[]    @relation("TaskOwner")
+  assignedTasks Task[] @relation("TaskAssignee")
   sessions  Session[]
+  tags      Tag[]
+  workspaces WorkspaceMember[]
+  ownedWorkspaces Workspace[]
+  comments  Comment[]
   createdAt DateTime  @default(now())
 }
 
@@ -22,6 +27,30 @@ model Session {
   createdAt DateTime @default(now())
   expiresAt DateTime
 }
+
+model Workspace {
+  id          Int      @id @default(autoincrement())
+  name        String
+  ownerId     Int
+  owner       User     @relation(fields: [ownerId], references: [id])
+  inviteCode  String   @unique @default(uuid())
+  members     WorkspaceMember[]
+  tasks       Task[]
+  createdAt   DateTime @default(now())
+}
+
+model WorkspaceMember {
+  id          Int       @id @default(autoincrement())
+  workspaceId Int
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role        String    @default("MEMBER") // ADMIN, MEMBER
+  joinedAt    DateTime  @default(now())
+
+  @@unique([workspaceId, userId])
+}
+
 model Task {
   id          Int      @id @default(autoincrement())
   title       String
@@ -29,7 +58,9 @@ model Task {
   completed   Boolean  @default(false)
 
   priority    Int      @default(3)
+  status      String   @default("TODO") // TODO, IN_PROGRESS, DONE
   deadline    DateTime?
+  tags        Tag[]
 
   burstTime   Int      @default(5)   // execution time
 
@@ -40,5 +71,42 @@ model Task {
   userEmail   String?
 
   userId      Int
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User     @relation("TaskOwner", fields: [userId], references: [id], onDelete: Cascade)
+
+  assigneeId  Int?
+  assignee    User?    @relation("TaskAssignee", fields: [assigneeId], references: [id])
+
+  workspaceId Int?
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
+
+  comments    Comment[]
+
+  // Subtasks self-relation
+  parentTaskId Int?
+  parentTask   Task?   @relation("TaskSubtasks", fields: [parentTaskId], references: [id], onDelete: Cascade)
+  subtasks     Task[]  @relation("TaskSubtasks")
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  taskId    Int
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  name      String
+  color     String?  @default("#6B7280") // Default gray
+  createdAt DateTime @default(now())
+
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  tasks     Task[]
+
+  @@unique([name, userId])
 }

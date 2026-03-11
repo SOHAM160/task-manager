@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
 import { prisma } from "@/lib/prisma";
+import { logDebug } from "./debug";
 
 const SESSION_COOKIE = "sessionId";
 const SESSION_TTL_HOURS = 24;
@@ -31,7 +32,8 @@ export async function createSessionResponse(userId: number, rememberMe: boolean)
     },
   });
 
-  const res = NextResponse.json({ success: true });
+  // Return the session ID in the body for sessionStorage support
+  const res = NextResponse.json({ success: true, sessionId: session.id });
 
   res.cookies.set(SESSION_COOKIE, session.id, {
     httpOnly: true,
@@ -43,13 +45,13 @@ export async function createSessionResponse(userId: number, rememberMe: boolean)
   return res;
 }
 
-export async function clearSessionResponse() {
+export async function clearSessionResponse(sessionId?: string) {
   const cookieStore = await cookies();
-  const sessionId = cookieStore.get(SESSION_COOKIE)?.value;
+  const sid = sessionId || cookieStore.get(SESSION_COOKIE)?.value;
 
-  if (sessionId) {
+  if (sid) {
     await prisma.session.deleteMany({
-      where: { id: sessionId },
+      where: { id: sid },
     });
   }
 
@@ -67,7 +69,16 @@ export async function clearSessionResponse() {
 
 export async function getCurrentUser() {
   const cookieStore = await cookies();
-  const sessionId = cookieStore.get(SESSION_COOKIE)?.value;
+  const headerList = await import("next/headers").then(m => m.headers());
+  
+  // 1. Try header first (for multi-tab support)
+  let sessionId: string | null = (await headerList).get("Session-ID");
+  
+  // 2. Fallback to cookie
+  if (!sessionId) {
+    const cookie = cookieStore.get(SESSION_COOKIE);
+    sessionId = cookie ? cookie.value : null;
+  }
 
   if (!sessionId) return null;
 
@@ -76,15 +87,20 @@ export async function getCurrentUser() {
     include: { user: true },
   });
 
-  if (!session) return null;
+  if (!session) {
+    console.log(`[AUTH] Session not found: ${sessionId}`);
+    return null;
+  }
 
   if (session.expiresAt < new Date()) {
+    console.log(`[AUTH] Session expired: ${sessionId}`);
     await prisma.session.delete({
       where: { id: session.id },
     });
     return null;
   }
 
+  logDebug(`[AUTH] Current User Resolved: ID:${session.user.id}, Email:${session.user.email}, SessionID:${sessionId}`);
   return session.user;
 }
 
