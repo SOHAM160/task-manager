@@ -16,8 +16,7 @@ export async function GET() {
     },
     include: {
       owner: { select: { email: true } },
-      members: { include: { user: { select: { email: true } } } },
-      _count: { select: { tasks: true } }
+      members: { include: { user: { select: { email: true } } } }
     }
   });
 

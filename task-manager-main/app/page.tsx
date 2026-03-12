@@ -64,11 +64,6 @@ export default function Home() {
   const [comments, setComments] = useState<any[]>([]);
   const [newCommentText, setNewCommentText] = useState("");
   const [isLoadingComments, setIsLoadingComments] = useState(false);
-  const [isBreakingDown, setIsBreakingDown] = useState(false);
-  const [isGeneratingSchedule, setIsGeneratingSchedule] = useState(false);
-  const [aiSchedule, setAiSchedule] = useState<string[]>([]);
-  const [isSendingEmail, setIsSendingEmail] = useState(false);
-  const [isSyncingNotifications, setIsSyncingNotifications] = useState(false);
 
   const callApi = useCallback(async (url: string, options: RequestInit = {}) => {
     const sid = typeof window !== 'undefined' ? window.sessionStorage.getItem("sessionId") : null;
@@ -331,90 +326,6 @@ export default function Home() {
 
   };
 
-  const handleAiBreakdown = async () => {
-    if (!title || isBreakingDown) return;
-    setIsBreakingDown(true);
-
-    try {
-      const res = await callApi("/api/ai/breakdown", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title }),
-      });
-
-      const data = await res.json();
-      if (res.ok && data.subtasks) {
-        setPendingSubtasks(prev => [...prev, ...data.subtasks]);
-        if (data.hint) {
-          alert(data.hint);
-        }
-      } else {
-        alert(data.error || "Failed to break down task");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong");
-    } finally {
-      setIsBreakingDown(false);
-    }
-  };
-
-  const handleGenerateAiSchedule = async () => {
-    if (isGeneratingSchedule) return;
-    setIsGeneratingSchedule(true);
-    setAiSchedule([]);
-
-    try {
-      const res = await callApi("/api/ai/schedule");
-      const data = await res.json();
-      
-      if (res.ok && data.schedule) {
-        setAiSchedule(data.schedule);
-      } else {
-        alert(data.error || "Failed to generate AI schedule");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong generating the schedule");
-    } finally {
-      setIsGeneratingSchedule(false);
-    }
-  };
-
-  const handleEmailPlan = async () => {
-    if (aiSchedule.length === 0 || isSendingEmail) return;
-    setIsSendingEmail(true);
-    try {
-      const res = await callApi("/api/notifications/daily-plan", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ schedule: aiSchedule }),
-      });
-      const data = await res.json();
-      if (res.ok) alert(`✅ ${data.message}`);
-      else alert(`❌ ${data.error}`);
-    } catch {
-      alert("Failed to send email");
-    } finally {
-      setIsSendingEmail(false);
-    }
-  };
-
-  const handleSyncNotifications = async () => {
-    if (isSyncingNotifications) return;
-    setIsSyncingNotifications(true);
-    try {
-      const res = await callApi("/api/notifications/sync", { method: "POST" });
-      const data = await res.json();
-      if (res.ok) alert(`🔔 ${data.message}`);
-      else alert(`❌ ${data.error}`);
-    } catch {
-      alert("Failed to sync notifications");
-    } finally {
-      setIsSyncingNotifications(false);
-    }
-  };
-
   // Toggle completion
   const toggleTask = async (task: any) => {
 
@@ -462,22 +373,6 @@ export default function Home() {
 
     fetchTasks(true);
 
-  };
-
-  const deleteWorkspace = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this project?")) return;
-    
-    const res = await callApi(`/api/workspaces/${id}`, {
-      method: "DELETE",
-    });
-
-    if (res.ok) {
-      if (currentWorkspaceId === id) setCurrentWorkspaceId(null);
-      fetchWorkspaces();
-    } else {
-      const data = await res.json();
-      alert(data.error || "Failed to delete project");
-    }
   };
 
   // Create a new tag
@@ -760,30 +655,6 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[10px] uppercase tracking-wider text-gray-500 font-bold ml-1">Notifications</label>
-                    <button 
-                      onClick={handleSyncNotifications}
-                      disabled={isSyncingNotifications}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-lg ${
-                        isSyncingNotifications 
-                          ? 'bg-gray-700 text-gray-500 cursor-not-allowed' 
-                          : 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white'
-                      }`}
-                    >
-                      {isSyncingNotifications ? '⏳ Syncing...' : '🔔 Sync Alerts'}
-                    </button>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[10px] uppercase tracking-wider text-gray-500 font-bold ml-1">AI Schedule</label>
-                    <button 
-                      onClick={handleGenerateAiSchedule}
-                      disabled={isGeneratingSchedule}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-lg ${isGeneratingSchedule ? 'bg-gray-700 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white'}`}
-                    >
-                      {isGeneratingSchedule ? '✨ Planning...' : '📅 AI Daily Plan'}
-                    </button>
-                  </div>
-                  <div className="flex flex-col gap-1">
                     <label className="text-[10px] uppercase tracking-wider text-gray-500 font-bold ml-1">Workspace</label>
                     <div className="flex gap-2">
                     <select 
@@ -821,47 +692,6 @@ export default function Home() {
                   </button>
                 </div>
               </div>
-
-              {/* AI Schedule Display */}
-              {aiSchedule.length > 0 && (
-                <div className="bg-gray-900/90 backdrop-blur-xl p-6 rounded-2xl border-2 border-purple-500/30 shadow-[0_0_30px_-10px_rgba(168,85,247,0.4)] animate-in fade-in slide-in-from-top-4 duration-500">
-                  <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent flex items-center gap-2">
-                      <span className="text-2xl">✨</span> Your AI Daily Plan
-                    </h2>
-                    <div className="flex gap-2 items-center">
-                      <button
-                        onClick={handleEmailPlan}
-                        disabled={isSendingEmail}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition ${
-                          isSendingEmail 
-                            ? 'bg-gray-700 text-gray-500 cursor-not-allowed' 
-                            : 'bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 border border-blue-500/30'
-                        }`}
-                      >
-                        {isSendingEmail ? '📨 Sending...' : '📧 Email Me'}
-                      </button>
-                      <button 
-                        onClick={() => setAiSchedule([])}
-                        className="text-gray-500 hover:text-white transition"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  </div>
-                  <div className="grid gap-3">
-                    {aiSchedule.map((item, idx) => (
-                      <div 
-                        key={idx} 
-                        className="flex items-center gap-4 bg-gray-800/40 p-3 rounded-xl border border-gray-700/50 hover:border-purple-500/30 transition group"
-                      >
-                        <div className="w-2 h-2 rounded-full bg-purple-500 group-hover:scale-125 transition"></div>
-                        <span className="text-gray-200 font-medium">{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
 
               {/* Add Task Form */}
               <div className="bg-gray-900/80 backdrop-blur p-6 rounded-xl shadow-lg border border-gray-800/50">
@@ -927,18 +757,8 @@ export default function Home() {
                     )}
                   </div>
 
-                   <div className="flex flex-col gap-2 mt-4 bg-gray-800/30 p-4 rounded-lg border border-gray-700/50">
-                    <div className="flex justify-between items-center mb-1">
-                      <label className="text-sm text-gray-400 font-semibold">Add Checklist Items (Subtasks)</label>
-                      <button 
-                        type="button" 
-                        onClick={handleAiBreakdown}
-                        disabled={isBreakingDown || !title}
-                        className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded transition flex items-center gap-1 ${isBreakingDown ? 'bg-gray-700 text-gray-500 cursor-not-allowed' : 'bg-blue-600/20 text-blue-400 hover:bg-blue-600/40 border border-blue-500/30'}`}
-                      >
-                        {isBreakingDown ? '✨ Thinking...' : '✨ Breakdown with AI'}
-                      </button>
-                    </div>
+                  <div className="flex flex-col gap-2 mt-4 bg-gray-800/30 p-4 rounded-lg border border-gray-700/50">
+                    <label className="text-sm text-gray-400 font-semibold">Add Checklist Items (Subtasks)</label>
                     <div className="flex gap-2">
                       <input
                         type="text"
@@ -1239,21 +1059,11 @@ export default function Home() {
                   <div key={ws.id} className="bg-gray-800/50 p-3 rounded-lg border border-gray-700/50">
                     <div className="flex justify-between items-center">
                       <span className="font-semibold text-gray-200">{ws.name}</span>
-                      <div className="flex gap-2 items-center">
-                        <span className="text-[10px] bg-gray-700 px-2 py-0.5 rounded text-gray-400 capitalize">{ws.ownerId === ws.owner?.id || ws.ownerId === workspaces.find(w => w.ownerId === ws.ownerId)?.ownerId ? 'Owner' : 'Member'}</span>
-                        {ws.ownerId === workspaces.find(w => w.ownerId === ws.ownerId)?.ownerId && ws._count?.tasks === 0 && (
-                          <button 
-                            onClick={() => deleteWorkspace(ws.id)}
-                            className="text-[10px] text-red-500 hover:text-red-400 font-bold uppercase tracking-wider"
-                          >
-                            Delete Empty
-                          </button>
-                        )}
-                      </div>
+                      <span className="text-[10px] bg-gray-700 px-2 py-0.5 rounded text-gray-400 capitalize">{ws.ownerId === workspaces.find(w => w.ownerId === ws.ownerId)?.ownerId ? 'Owner' : 'Member'}</span>
                     </div>
                     <div className="text-[10px] text-gray-500 mt-1 flex items-center justify-between">
                       <span>Invite Code: <code className="text-purple-400 select-all">{ws.inviteCode}</code></span>
-                      <span>{ws._count?.tasks || 0} Tasks • {ws.members.length} Members</span>
+                      <span>{ws.members.length} Members</span>
                     </div>
                   </div>
                 ))}

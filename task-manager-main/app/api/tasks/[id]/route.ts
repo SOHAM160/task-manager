@@ -22,30 +22,21 @@ export async function PUT(
 
   // Get existing task to check permissions
   const existingTask = await prisma.task.findUnique({
-    where: { id: Number(id) },
-    include: { parentTask: true }
+    where: { id: Number(id) }
   });
 
   if (!existingTask) {
     return NextResponse.json({ error: "Task not found" }, { status: 404 });
   }
 
-  // Check access: 
-  // 1. User is the creator
-  // 2. User is the assignee
-  // 3. User is a member of the workspace (or the parent task's workspace)
-  const effectiveWorkspaceId = existingTask.workspaceId || existingTask.parentTask?.workspaceId;
-
-  const workspaceMember = effectiveWorkspaceId 
+  // Check access: user must be the owner OR a member of the workspace the task belongs to
+  const workspaceMember = existingTask.workspaceId 
     ? await prisma.workspaceMember.findFirst({
-        where: { workspaceId: effectiveWorkspaceId, userId: user.id }
+        where: { workspaceId: existingTask.workspaceId, userId: user.id }
       })
     : null;
 
-  const isCreator = existingTask.userId === user.id;
-  const isAssignee = existingTask.assigneeId === user.id;
-
-  if (!isCreator && !isAssignee && !workspaceMember) {
+  if (existingTask.userId !== user.id && !workspaceMember) {
     return NextResponse.json(
       { error: "Task not found or access denied" },
       { status: 404 }

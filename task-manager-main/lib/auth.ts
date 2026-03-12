@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
 import { prisma } from "@/lib/prisma";
-import { logDebug } from "@/lib/debug";
+import { logDebug } from "./debug";
 
 const SESSION_COOKIE = "sessionId";
 const SESSION_TTL_HOURS = 24;

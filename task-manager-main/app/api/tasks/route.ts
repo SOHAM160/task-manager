@@ -98,9 +98,7 @@ export async function POST(req: Request) {
           completed: false,
           priority: 3,
           userId: user.id,
-          userEmail: user.email,
-          workspaceId: workspaceId,
-          assigneeId: assigneeId
+          userEmail: user.email
         }))
       }
     },
