@@ -144,12 +144,17 @@ export async function DELETE(
   }
 
   const existingTask = await prisma.task.findUnique({
+<<<<<<< HEAD
     where: { id: Number(id) },
     include: { parentTask: true }
+=======
+    where: { id: Number(id) }
+>>>>>>> 733e1d5d8aaa1d561483c9dc3bea52ff502641b3
   });
 
   if (!existingTask) return NextResponse.json({ error: "Task not found" }, { status: 404 });
 
+<<<<<<< HEAD
   const effectiveWorkspaceId = existingTask.workspaceId || existingTask.parentTask?.workspaceId;
 
   const workspaceMember = effectiveWorkspaceId
@@ -162,6 +167,16 @@ export async function DELETE(
   const isAssignee = existingTask.assigneeId === user.id;
 
   if (!isOwner && !isAssignee && !workspaceMember) {
+=======
+  const isOwner = existingTask.userId === user.id;
+  const workspaceAdmin = existingTask.workspaceId 
+    ? await prisma.workspaceMember.findFirst({
+        where: { workspaceId: existingTask.workspaceId, userId: user.id, role: "ADMIN" }
+      })
+    : null;
+
+  if (!isOwner && !workspaceAdmin) {
+>>>>>>> 733e1d5d8aaa1d561483c9dc3bea52ff502641b3
     return NextResponse.json({ error: "Access denied" }, { status: 403 });
   }
 

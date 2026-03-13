@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
+<<<<<<< HEAD
 const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
@@ -11,6 +12,10 @@ if (!connectionString) {
 
 const adapter = new PrismaPg({
   connectionString,
+=======
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL!,
+>>>>>>> 733e1d5d8aaa1d561483c9dc3bea52ff502641b3
 });
 
 const globalForPrisma = globalThis as unknown as {

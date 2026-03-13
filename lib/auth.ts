@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { cookies, headers } from "next/headers";
+=======
+import { cookies } from "next/headers";
+>>>>>>> 733e1d5d8aaa1d561483c9dc3bea52ff502641b3
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
@@ -69,10 +73,17 @@ export async function clearSessionResponse(sessionId?: string) {
 
 export async function getCurrentUser() {
   const cookieStore = await cookies();
+<<<<<<< HEAD
   const headerList = await headers();
   
   // 1. Try header first (for multi-tab support)
   let sessionId: string | null = headerList.get("Session-ID");
+=======
+  const headerList = await import("next/headers").then(m => m.headers());
+  
+  // 1. Try header first (for multi-tab support)
+  let sessionId: string | null = (await headerList).get("Session-ID");
+>>>>>>> 733e1d5d8aaa1d561483c9dc3bea52ff502641b3
   
   // 2. Fallback to cookie
   if (!sessionId) {

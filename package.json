@@ -20,7 +20,10 @@
     "@types/nodemailer": "^7.0.11",
     "@types/pg": "^8.18.0",
     "bcryptjs": "^2.4.3",
+<<<<<<< HEAD
     "chart.js": "^4.5.1",
+=======
+>>>>>>> 733e1d5d8aaa1d561483c9dc3bea52ff502641b3
     "next": "16.1.6",
     "nodemailer": "^8.0.2",
     "openai": "^6.27.0",
@@ -28,9 +31,13 @@
     "postgres-array": "^3.0.4",
     "prisma": "^7.4.2",
     "react": "19.2.3",
+<<<<<<< HEAD
     "react-chartjs-2": "^5.3.1",
     "react-dom": "19.2.3",
     "recharts": "^3.8.0",
+=======
+    "react-dom": "19.2.3",
+>>>>>>> 733e1d5d8aaa1d561483c9dc3bea52ff502641b3
     "resend": "^6.9.3",
     "tsparticles": "^3.9.1"
   },

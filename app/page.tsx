@@ -3,7 +3,10 @@
 import { useEffect, useState, useCallback } from "react";
 import ParticleBackground from "@/components/ParticleBackground";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+<<<<<<< HEAD
 import AnalyticsDashboard from "@/components/AnalyticsDashboard";
+=======
+>>>>>>> 733e1d5d8aaa1d561483c9dc3bea52ff502641b3
 
 export default function Home() {
 
@@ -416,8 +419,14 @@ export default function Home() {
     }
   };
 
+<<<<<<< HEAD
   // Toggle completion for a single task
   const toggleTask = async (task: any) => {
+=======
+  // Toggle completion
+  const toggleTask = async (task: any) => {
+
+>>>>>>> 733e1d5d8aaa1d561483c9dc3bea52ff502641b3
     await callApi(`/api/tasks/${task.id}`, {
       method: "PUT",
       headers: {
@@ -429,6 +438,7 @@ export default function Home() {
     });
 
     fetchTasks(true);
+<<<<<<< HEAD
   };
 
   // Toggle parent and all subtasks together
@@ -464,6 +474,9 @@ export default function Home() {
     }
 
     fetchTasks(true);
+=======
+
+>>>>>>> 733e1d5d8aaa1d561483c9dc3bea52ff502641b3
   };
 
   // Drag and drop handler
@@ -1079,11 +1092,14 @@ export default function Home() {
           )}
         </div>
       </main>
+<<<<<<< HEAD
       {userEmail && (
         <div className="px-10 pb-10">
           <AnalyticsDashboard />
         </div>
       )}
+=======
+>>>>>>> 733e1d5d8aaa1d561483c9dc3bea52ff502641b3
       {renderWorkspaceModal()}
       {renderCommentsModal()}
     </>
@@ -1164,7 +1180,11 @@ export default function Home() {
             <input
               type="checkbox"
               checked={task.completed}
+<<<<<<< HEAD
               onChange={() => toggleParentWithSubtasks(task)}
+=======
+              onChange={() => toggleTask(task)}
+>>>>>>> 733e1d5d8aaa1d561483c9dc3bea52ff502641b3
               className="mt-1"
             />
             <div className="flex-1">
@@ -1214,6 +1234,7 @@ export default function Home() {
           <div className="mt-1 border-t border-gray-800 pt-2 flex flex-col gap-1.5 px-1">
             {task.subtasks.map((sub: any) => (
               <div key={sub.id} className="flex items-center gap-2 group/sub">
+<<<<<<< HEAD
                 <input
                   type="checkbox"
                   checked={sub.completed}
@@ -1227,6 +1248,10 @@ export default function Home() {
                 >
                   {sub.title}
                 </span>
+=======
+                <input type="checkbox" checked={sub.completed} onChange={() => toggleTask(sub)} className="w-3 h-3 opacity-50" />
+                <span className={`text-[11px] flex-1 ${sub.completed ? 'line-through text-gray-600' : 'text-gray-400'}`}>{sub.title}</span>
+>>>>>>> 733e1d5d8aaa1d561483c9dc3bea52ff502641b3
               </div>
             ))}
           </div>
