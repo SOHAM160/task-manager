@@ -1,0 +1,766 @@
+﻿
+> task-manager@0.1.0 build
+> next build
+
+Γû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env
+
+  Creating an optimized production build ...
+node.exe : 
+At C:\Program 
+Files\nodejs\npm.ps1:29 
+char:3
++   & $NODE_EXE 
+$NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~
+    + CategoryInfo         
+     : NotSpecified    : 
+(:String) [], Rem    
+oteException
+    + FullyQualifiedErr    
+orId : NativeComman    
+dError
+ 
+> Build error occurred
+Error: Turbopack build 
+failed with 8 errors:
+./node_modules/@prisma/adap
+ter-pg/dist/index.mjs:2:1
+Module not found: Can't 
+resolve '@prisma/driver-ada
+pter-utils'
+[0m [90m 1 |[39m 
+[90m// src/pg.ts[39m
+[31m[1m>[22m[39m[90m 
+2 |[39m [36mimport[39m 
+{ 
+[33mDebug[39m[33m,[39m 
+[33mDriverAdapterError[39
+m } [36mfrom[39m [32m"@p
+risma/driver-adapter-utils"
+[39m[33m;[39m
+ [90m   |[39m [31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[
+31m[1m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[
+39m[31m[1m^[22m[39m[31
+m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[
+31m[1m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[
+39m[31m[1m^[22m[39m[31
+m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[
+31m[1m^[22m[39m
+ [90m 3 |[39m 
+[36mimport[39m pg2 
+[36mfrom[39m 
+[32m"pg"[39m[33m;[39m
+ [90m 4 |[39m
+ [90m 5 |[39m [90m// 
+package.json[39m[0m
+
+
+
+Import trace:
+  App Route:
+    ./node_modules/@prisma/
+adapter-pg/dist/index.mjs
+    ./lib/prisma.ts
+    ./app/api/auth/register
+/route.ts
+
+https://nextjs.org/docs/mes
+sages/module-not-found
+
+
+./node_modules/@prisma/adap
+ter-pg/dist/index.mjs:12:1
+Module not found: Can't 
+resolve '@prisma/driver-ada
+pter-utils'
+[0m [90m 10 |[39m
+ [90m 11 |[39m [90m// 
+src/conversion.ts[39m
+[31m[1m>[22m[39m[90m 
+12 |[39m [36mimport[39m 
+{ [33mColumnTypeEnum[39m 
+} [36mfrom[39m [32m"@pri
+sma/driver-adapter-utils"[
+39m[33m;[39m
+ [90m    |[39m [31m[1m^
+[22m[39m[31m[1m^[22m[
+39m[31m[1m^[22m[39m[31
+m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[
+31m[1m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[
+39m[31m[1m^[22m[39m[31
+m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[
+31m[1m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[
+39m[31m[1m^[22m[39m[31
+m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 13 |[39m 
+[36mimport[39m pg 
+[36mfrom[39m 
+[32m"pg"[39m[33m;[39m
+ [90m 14 |[39m 
+[36mimport[39m { parse 
+[36mas[39m parseArray } 
+[36mfrom[39m [32m"postgr
+es-array"[39m[33m;[39m
+ [90m 15 |[39m 
+[36mvar[39m { types } 
+[33m=[39m 
+pg[33m;[39m[0m
+
+
+
+Import trace:
+  App Route:
+    ./node_modules/@prisma/
+adapter-pg/dist/index.mjs
+    ./lib/prisma.ts
+    ./app/api/auth/register
+/route.ts
+
+https://nextjs.org/docs/mes
+sages/module-not-found
+
+
+./node_modules/@tsparticles
+/react/dist/Particles.js:3:
+1
+Module not found: Can't 
+resolve 
+'@tsparticles/engine'
+[0m [90m 1 |[39m 
+[36mimport[39m { jsx 
+[36mas[39m d } 
+[36mfrom[39m [32m"react/
+jsx-runtime"[39m[33m;[39
+m
+ [90m 2 |[39m 
+[36mimport[39m { 
+useEffect [36mas[39m m } 
+[36mfrom[39m [32m"react"
+[39m[33m;[39m
+[31m[1m>[22m[39m[90m 
+3 |[39m [36mimport[39m 
+{ tsParticles [36mas[39m 
+s } [36mfrom[39m [32m"@t
+sparticles/engine"[39m[33
+m;[39m
+ [90m   |[39m [31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[
+31m[1m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[
+39m[31m[1m^[22m[39m[31
+m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[
+31m[1m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[
+39m[31m[1m^[22m[39m[31
+m[1m^[22m[39m[31m[1m^
+[22m[39m
+ [90m 4 |[39m 
+[36mconst[39m f 
+[33m=[39m (t) 
+[33m=>[39m {
+ [90m 5 |[39m   
+[36mconst[39m i 
+[33m=[39m t[33m.[39mid 
+[33m?[39m[33m?[39m [32
+m"tsparticles"[39m[33m;[
+39m
+ [90m 6 |[39m   
+[36mreturn[39m m(() 
+[33m=>[39m {[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./node_modules/@tsparti
+cles/react/dist/Particles.j
+s [Client Component 
+Browser]
+    ./components/ParticleBa
+ckground.tsx [Client 
+Component Browser]
+    ./app/page.tsx [Client 
+Component Browser]
+    ./app/page.tsx [Server 
+Component]
+
+  Client Component SSR:
+    ./node_modules/@tsparti
+cles/react/dist/Particles.j
+s [Client Component SSR]
+    ./components/ParticleBa
+ckground.tsx [Client 
+Component SSR]
+    ./app/page.tsx [Client 
+Component SSR]
+    ./app/page.tsx [Server 
+Component]
+
+https://nextjs.org/docs/mes
+sages/module-not-found
+
+
+./node_modules/@tsparticles
+/react/dist/index.js:1:1
+Module not found: Can't 
+resolve 
+'@tsparticles/engine'
+[0m[31m[1m>[22m[39m[9
+0m 1 |[39m 
+[36mimport[39m { 
+tsParticles [36mas[39m i 
+} [36mfrom[39m [32m"@tsp
+articles/engine"[39m[33m;
+[39m
+ [90m   |[39m [31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[
+31m[1m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[
+39m[31m[1m^[22m[39m[31
+m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[
+31m[1m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[
+39m[31m[1m^[22m[39m[31
+m[1m^[22m[39m[31m[1m^
+[22m[39m
+ [90m 2 |[39m 
+[36mimport[39m o 
+[36mfrom[39m [32m"./Part
+icles.js"[39m[33m;[39m
+ [90m 3 |[39m 
+[36mimport[39m [32m"reac
+t/jsx-runtime"[39m[33m;[
+39m
+ [90m 4 |[39m 
+[36mimport[39m [32m"reac
+t"[39m[33m;[39m[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./node_modules/@tsparti
+cles/react/dist/index.js 
+[Client Component Browser]
+    ./components/ParticleBa
+ckground.tsx [Client 
+Component Browser]
+    ./app/page.tsx [Client 
+Component Browser]
+    ./app/page.tsx [Server 
+Component]
+
+  Client Component SSR:
+    ./node_modules/@tsparti
+cles/react/dist/index.js 
+[Client Component SSR]
+    ./components/ParticleBa
+ckground.tsx [Client 
+Component SSR]
+    ./app/page.tsx [Client 
+Component SSR]
+    ./app/page.tsx [Server 
+Component]
+
+https://nextjs.org/docs/mes
+sages/module-not-found
+
+
+./components/ParticleBackgr
+ound.tsx:5:1
+Module not found: Can't 
+resolve '@tsparticles/slim'
+[0m [90m 3 |[39m 
+[36mimport[39m { 
+useEffect[33m,[39m 
+useState } [36mfrom[39m 
+[32m"react"[39m[33m;[39m
+ [90m 4 |[39m 
+[36mimport[39m [33mParti
+cles[39m[33m,[39m { 
+initParticlesEngine } 
+[36mfrom[39m [32m"@tspar
+ticles/react"[39m[33m;[3
+9m
+[31m[1m>[22m[39m[90m 
+5 |[39m [36mimport[39m 
+{ loadSlim } 
+[36mfrom[39m [32m"@tspar
+ticles/slim"[39m[33m;[39
+m
+ [90m   |[39m [31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[
+31m[1m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[
+39m[31m[1m^[22m[39m[31
+m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m
+ [90m 6 |[39m
+ [90m 7 |[39m 
+[36mexport[39m 
+[36mdefault[39m 
+[36mfunction[39m [33mPar
+ticleBackground[39m() {
+ [90m 8 |[39m   
+[36mconst[39m 
+[init[33m,[39m setInit] 
+[33m=[39m useState([36mf
+alse[39m)[33m;[39m[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ParticleBa
+ckground.tsx [Client 
+Component Browser]
+    ./app/page.tsx [Client 
+Component Browser]
+    ./app/page.tsx [Server 
+Component]
+
+  Client Component SSR:
+    ./components/ParticleBa
+ckground.tsx [Client 
+Component SSR]
+    ./app/page.tsx [Client 
+Component SSR]
+    ./app/page.tsx [Server 
+Component]
+
+https://nextjs.org/docs/mes
+sages/module-not-found
+
+
+./node_modules/@prisma/adap
+ter-pg/dist/index.mjs:3:1
+Module not found: Can't 
+resolve 'pg'
+[0m [90m 1 |[39m 
+[90m// src/pg.ts[39m
+ [90m 2 |[39m 
+[36mimport[39m { 
+[33mDebug[39m[33m,[39m 
+[33mDriverAdapterError[39
+m } [36mfrom[39m [32m"@p
+risma/driver-adapter-utils"
+[39m[33m;[39m
+[31m[1m>[22m[39m[90m 
+3 |[39m [36mimport[39m 
+pg2 [36mfrom[39m 
+[32m"pg"[39m[33m;[39m
+ [90m   |[39m [31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[
+31m[1m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^[22m
+[39m
+ [90m 4 |[39m
+ [90m 5 |[39m [90m// 
+package.json[39m
+ [90m 6 |[39m 
+[36mvar[39m name 
+[33m=[39m [32m"@prisma/a
+dapter-pg"[39m[33m;[39m
+[0m
+
+
+
+Import trace:
+  App Route:
+    ./node_modules/@prisma/
+adapter-pg/dist/index.mjs
+    ./lib/prisma.ts
+    ./app/api/auth/register
+/route.ts
+
+https://nextjs.org/docs/mes
+sages/module-not-found
+
+
+./node_modules/@prisma/adap
+ter-pg/dist/index.mjs:13:1
+Module not found: Can't 
+resolve 'pg'
+[0m [90m 11 |[39m 
+[90m// 
+src/conversion.ts[39m
+ [90m 12 |[39m 
+[36mimport[39m { 
+[33mColumnTypeEnum[39m } 
+[36mfrom[39m [32m"@prism
+a/driver-adapter-utils"[39
+m[33m;[39m
+[31m[1m>[22m[39m[90m 
+13 |[39m [36mimport[39m 
+pg [36mfrom[39m 
+[32m"pg"[39m[33m;[39m
+ [90m    |[39m [31m[1m^
+[22m[39m[31m[1m^[22m[
+39m[31m[1m^[22m[39m[31
+m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m
+ [90m 14 |[39m 
+[36mimport[39m { parse 
+[36mas[39m parseArray } 
+[36mfrom[39m [32m"postgr
+es-array"[39m[33m;[39m
+ [90m 15 |[39m 
+[36mvar[39m { types } 
+[33m=[39m pg[33m;[39m
+ [90m 16 |[39m 
+[36mvar[39m { 
+builtins[33m:[39m [33mSc
+alarColumnType[39m[33m,[
+39m getTypeParser } 
+[33m=[39m 
+types[33m;[39m[0m
+
+
+
+Import trace:
+  App Route:
+    ./node_modules/@prisma/
+adapter-pg/dist/index.mjs
+    ./lib/prisma.ts
+    ./app/api/auth/register
+/route.ts
+
+https://nextjs.org/docs/mes
+sages/module-not-found
+
+
+./node_modules/@prisma/adap
+ter-pg/dist/index.mjs:14:1
+Module not found: Can't 
+resolve 'postgres-array'
+[0m [90m 12 |[39m 
+[36mimport[39m { 
+[33mColumnTypeEnum[39m } 
+[36mfrom[39m [32m"@prism
+a/driver-adapter-utils"[39
+m[33m;[39m
+ [90m 13 |[39m 
+[36mimport[39m pg 
+[36mfrom[39m 
+[32m"pg"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 
+14 |[39m [36mimport[39m 
+{ parse [36mas[39m 
+parseArray } 
+[36mfrom[39m [32m"postgr
+es-array"[39m[33m;[39m
+ [90m    |[39m [31m[1m^
+[22m[39m[31m[1m^[22m[
+39m[31m[1m^[22m[39m[31
+m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[
+31m[1m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[
+39m[31m[1m^[22m[39m[31
+m[1m^[22m[39m[31m[1m^
+[22m[39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[
+22m[39m[31m[1m^[22m[39
+m[31m[1m^[22m[39m[31m
+[1m^[22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1m^[22
+m[39m[31m[1m^[22m[39m
+[31m[1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m[
+31m[1m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^[22m
+[39m[31m[1m^[22m[39m
+ [90m 15 |[39m 
+[36mvar[39m { types } 
+[33m=[39m pg[33m;[39m
+ [90m 16 |[39m 
+[36mvar[39m { 
+builtins[33m:[39m [33mSc
+alarColumnType[39m[33m,[
+39m getTypeParser } 
+[33m=[39m 
+types[33m;[39m
+ [90m 17 |[39m 
+[36mvar[39m [33mAddition
+alScalarColumnType[39m 
+[33m=[39m {[0m
+
+
+
+Import trace:
+  App Route:
+    ./node_modules/@prisma/
+adapter-pg/dist/index.mjs
+    ./lib/prisma.ts
+    ./app/api/auth/register
+/route.ts
+
+https://nextjs.org/docs/mes
+sages/module-not-found
+
+
+    at ./node_modules/ (pri
+sma/adapter-pg/dist/index.m
+js:2:1)
+    at <unknown> (https://n
+extjs.org/docs/messages/mod
+ule-not-found)
+    at ./node_modules/ (pri
+sma/adapter-pg/dist/index.m
+js:12:1)
+    at <unknown> (https://n
+extjs.org/docs/messages/mod
+ule-not-found)
+    at ./node_modules/ (tsp
+articles/react/dist/Particl
+es.js:3:1)
+    at <unknown> (https://n
+extjs.org/docs/messages/mod
+ule-not-found)
+    at ./node_modules/ (tsp
+articles/react/dist/index.j
+s:1:1)
+    at <unknown> (https://n
+extjs.org/docs/messages/mod
+ule-not-found)
+    at <unknown> (./compone
+nts/ParticleBackground.tsx:
+5:1)
+    at <unknown> (https://n
+extjs.org/docs/messages/mod
+ule-not-found)
+    at ./node_modules/ (pri
+sma/adapter-pg/dist/index.m
+js:3:1)
+    at <unknown> (https://n
+extjs.org/docs/messages/mod
+ule-not-found)
+    at ./node_modules/ (pri
+sma/adapter-pg/dist/index.m
+js:13:1)
+    at <unknown> (https://n
+extjs.org/docs/messages/mod
+ule-not-found)
+    at ./node_modules/ (pri
+sma/adapter-pg/dist/index.m
+js:14:1)
+    at <unknown> (https://n
+extjs.org/docs/messages/mod
+ule-not-found)

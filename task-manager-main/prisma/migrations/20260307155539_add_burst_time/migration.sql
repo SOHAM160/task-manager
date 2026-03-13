@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Task" ADD COLUMN     "burstTime" INTEGER NOT NULL DEFAULT 5,
+ALTER COLUMN "updatedAt" DROP DEFAULT;
