@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mongodb"
+  url          = env("DATABASE_URL")
+}
+
+model User {
+  id              String            @id @default(auto()) @map("_id") @db.ObjectId
+  email           String            @unique
+  password        String
+  tasks           Task[]            @relation("TaskOwner")
+  assignedTasks   Task[]            @relation("TaskAssignee")
+  sessions        Session[]
+  tags            Tag[]
+  workspaces      WorkspaceMember[]
+  ownedWorkspaces Workspace[]
+  comments        Comment[]
+  createdAt       DateTime          @default(now())
+}
+
+model Session {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+model Workspace {
+  id         String            @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  ownerId    String            @db.ObjectId
+  owner      User              @relation(fields: [ownerId], references: [id])
+  inviteCode String            @unique @default(uuid())
+  members    WorkspaceMember[]
+  tasks      Task[]
+  createdAt  DateTime          @default(now())
+}
+
+model WorkspaceMember {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  workspaceId String    @db.ObjectId
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  userId      String    @db.ObjectId
+  user        User      @relation(fields: [userId], references: [id])
+  role        String    @default("MEMBER")
+  joinedAt    DateTime  @default(now())
+
+  @@unique([workspaceId, userId])
+}
+
+model Task {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  completed   Boolean  @default(false)
+
+  priority  Int       @default(3)
+  status    String    @default("TODO")
+  deadline  DateTime?
+  
+  tagIDs    String[]  @db.ObjectId
+  tags      Tag[]     @relation(fields: [tagIDs], references: [id])
+
+  burstTime Int      @default(5)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userEmail String?
+
+  userId String @db.ObjectId
+  user   User   @relation("TaskOwner", fields: [userId], references: [id])
+
+  assigneeId String? @db.ObjectId
+  assignee   User?   @relation("TaskAssignee", fields: [assigneeId], references: [id])
+
+  workspaceId String?    @db.ObjectId
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
+
+  comments Comment[]
+
+  parentTaskId String? @db.ObjectId
+  parentTask   Task?   @relation("Subtasks", fields: [parentTaskId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subtasks     Task[]  @relation("Subtasks")
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  text      String
+  taskId    String   @db.ObjectId
+  task      Task     @relation(fields: [taskId], references: [id])
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Tag {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  color     String?  @default("#6B7280")
+  createdAt DateTime @default(now())
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  taskIDs String[] @db.ObjectId
+  tasks   Task[]   @relation(fields: [taskIDs], references: [id])
+
+  @@unique([name, userId])
+}
