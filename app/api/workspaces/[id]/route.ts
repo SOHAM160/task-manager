@@ -26,6 +26,10 @@ export async function DELETE(
     return NextResponse.json({ error: "Only the owner can delete a workspace" }, { status: 403 });
   }
 
+  if (workspace._count.tasks > 0) {
+    return NextResponse.json({ error: "Cannot delete a project that still has tasks. Please remove all tasks first." }, { status: 400 });
+  }
+
   // Delete the workspace (Prisma will handle cascading deletes if configured, 
   // but here we are primarily concerned with the user's request to 'delete if empty')
   // Manually handle cascading deletes for MongoDB

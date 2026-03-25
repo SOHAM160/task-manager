@@ -10,5 +10,6 @@ export async function GET() {
 
   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&scope=openid%20email%20profile&access_type=offline&prompt=consent`;
 
+  console.log("DEBUG: Sending Redirect URI to Google ->", REDIRECT_URI);
   return NextResponse.redirect(googleAuthUrl);
 }

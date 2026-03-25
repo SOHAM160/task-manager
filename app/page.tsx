@@ -78,11 +78,20 @@ export default function Home() {
     };
     if (sid) headers["Session-ID"] = sid;
     
-    return fetch(url, { 
+    const res = await fetch(url, { 
       ...options, 
       headers,
       credentials: "include" 
     });
+
+    if (res.status === 401 && !url.includes("/api/auth/me") && !url.includes("/api/auth/login") && !url.includes("/api/auth/register")) {
+      setUserEmail(null);
+      if (typeof window !== 'undefined') {
+        window.sessionStorage.removeItem("sessionId");
+      }
+    }
+
+    return res;
   }, []);
 
   const fetchCurrentUser = async () => {
@@ -1346,17 +1355,17 @@ export default function Home() {
                         {currentWorkspaceId === ws.id && <span className="ml-2 text-[10px] text-blue-500 font-bold uppercase tracking-widest">(Active)</span>}
                       </div>
                       <div className="flex gap-2 items-center">
-                        <span className="text-[10px] bg-gray-700 px-2 py-0.5 rounded text-gray-400 capitalize">{ws.ownerId === userEmail ? 'Owner' : 'Member'}</span>
+                        <span className="text-[10px] bg-gray-700 px-2 py-0.5 rounded text-gray-400 capitalize">{ws.owner?.email === userEmail ? 'Owner' : 'Member'}</span>
                         <button 
                           onClick={() => { setCurrentWorkspaceId(ws.id); setIsWorkspaceModalOpen(false); }}
                           className={`text-[10px] px-2 py-1 rounded transition font-bold uppercase tracking-wider ${currentWorkspaceId === ws.id ? 'bg-blue-600/20 text-blue-400' : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'}`}
                         >
                           {currentWorkspaceId === ws.id ? 'Selected' : 'Select'}
                         </button>
-                        {ws.ownerId === userEmail && ws._count?.tasks === 0 && (
+                        {ws.owner?.email === userEmail && (ws._count?.tasks || 0) === 0 && (
                           <button 
                             onClick={() => deleteWorkspace(ws.id)}
-                            className="text-[10px] text-red-500 hover:text-red-400 font-bold uppercase tracking-wider h-7"
+                            className="text-[10px] px-2 py-1 bg-red-600/20 text-red-400 hover:bg-red-600/40 border border-red-500/30 rounded font-bold uppercase tracking-wider h-7 transition-all"
                           >
                             Delete
                           </button>
