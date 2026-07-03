@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Task Manager (MERN Stack Edition)
 
-## Getting Started
+This project has been fully migrated from Next.js and Prisma to a custom, decoupled MERN Stack (MongoDB, Express, React, Node.js) architecture.
 
-First, run the development server:
+## 🚀 Technology Stack
+- **Frontend**: React (Vite) + Tailwind CSS + Axios + @hello-pangea/dnd (Drag and Drop) + Recharts & ChartJS (Analytics) + tsParticles (Interactive background design)
+- **Backend**: Node.js + Express.js + Mongoose (MongoDB Atlas integration)
+- **Authentication**: Custom HTTP-only cookies session storage with multi-tab Session-ID fallback
+- **AI Integrations**: Groq API (using Llama-3.3-70b) for automatic task breakdowns and smart schedule optimizations
+- **Notifications**: Email notifications via Gmail SMTP using Nodemailer for daily plans and task status updates
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 📂 Directory Structure
+- `/backend`: Contains the Express.js server, Mongoose models, Express controllers, route handlers, and middleware.
+- `/frontend`: Contains the React dashboard SPA utilizing Vite, Tailwind, and custom UI components.
+
+---
+
+## ⚙️ Configuration & Environment Variables
+
+### Backend (`/backend/.env`)
+Ensure you configure the `.env` file in the `backend/` directory with the following variables:
+```env
+DATABASE_URL=mongodb+srv://...
+JWT_SECRET=your_super_secret_jwt_key
+GROQ_API_KEY=gsk_...
+GMAIL_USER=your_email@gmail.com
+GMAIL_APP_PASSWORD=your_app_password
+PORT=5000
+CLIENT_URL=http://localhost:5173
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Frontend (`/frontend/.env`)
+The frontend uses a single variable to dynamically point to the backend server:
+```env
+VITE_API_URL=http://localhost:5000
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Installation and Setup
 
-## Learn More
+From the root directory, you can run the helper scripts:
 
-To learn more about Next.js, take a look at the following resources:
+1. **Install all dependencies** (Backend & Frontend):
+   ```bash
+   npm run install:all
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Run both servers in development mode** (concurrently):
+   ```bash
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **Or run them individually**:
+   - Backend: `npm run dev:backend`
+   - Frontend: `npm run dev:frontend`
