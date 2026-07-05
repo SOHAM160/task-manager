@@ -44,6 +44,15 @@ app.use("/api/ai", aiRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/dependencies", dependencyRoutes);
 
+// Root status
+app.get("/", (req, res) => {
+  res.json({
+    status: "success",
+    message: "Task Manager Backend API is running 🚀",
+    version: "1.0.0",
+  });
+});
+
 // Health check
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
